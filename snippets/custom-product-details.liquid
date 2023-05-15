@@ -1,0 +1,16 @@
+<div class="product-details-wrapper">
+	<h1>
+		{{ product.selected_or_first_available_variant.title }}
+	</h1>
+
+	{% if product.selected_or_first_available_variant.description != blank %}
+		<div>{{ product.selected_or_first_available_variant.description }}</div>
+	{% endif %}
+
+	<div class="price">
+		Price: {{ product.selected_or_first_available_variant.price | money }}
+		{% if product.selected_or_first_available_variant.compare_at_price %}
+			<span>{{ product.selected_or_first_available_variant.compare_at_price | money }}</span>
+		{% endif %}
+	</div>
+</div>

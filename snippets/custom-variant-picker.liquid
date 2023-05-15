@@ -1,0 +1,14 @@
+<custom-variant-radios
+	data-url="{{ product.url }}"
+	data-section-id="{{ section.id }}"
+>
+	{%- for option in product.options_with_values -%}
+		<fieldset>
+			<legend>{{ option.name }}</legend>
+			{% render 'custom-variant-options', product: product, option: option %}
+		</fieldset>
+	{%- endfor -%}
+	<script type="application/json">
+  	{{ product.variants | json }}
+  </script>
+</custom-variant-radios>

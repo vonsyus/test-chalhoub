@@ -3,8 +3,8 @@
 		{{ product.title }}
 	</h1>
 
-	{% if product.selected_or_first_available_variant.description != blank %}
-		<div>{{ product.selected_or_first_available_variant.description }}</div>
+	{% if product.description != blank %}
+		<div>{{ product.description }}</div>
 	{% endif %}
 
 	<div class="price">

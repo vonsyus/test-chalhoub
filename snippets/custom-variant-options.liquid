@@ -1,0 +1,48 @@
+{%- liquid
+	assign available_variants = product.variants | map: 'available'
+	assign option1_variants = product.variants | map: 'option1'
+	assign option2_variants = product.variants | map: 'option2'
+	assign option3_variants = product.variants | map: 'option3'
+
+	assign product_form_id = 'product-form-' | append: section.id
+-%}
+
+{%- for value in option.values -%}
+	{%- liquid
+		assign option_disabled = true
+
+		for option1_name in option1_variants
+			case option.position
+				when 1
+					if option1_variants[forloop.index0] == value and available_variants[forloop.index0]
+						assign option_disabled = false
+					endif
+				when 2
+					if option1_name == product.selected_or_first_available_variant.option1 and option2_variants[forloop.index0] == value and available_variants[forloop.index0]
+						assign option_disabled = false
+					endif
+				when 3
+					if option1_name == product.selected_or_first_available_variant.option1 and option2_variants[forloop.index0] == product.selected_or_first_available_variant.option2 and option3_variants[forloop.index0] == value and available_variants[forloop.index0]
+						assign option_disabled = false
+					endif
+			endcase
+		endfor
+	-%}
+
+	<input
+		type="radio"
+		id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+		name="{{ option.name }}"
+		value="{{ value | escape }}"
+		form="{{ product_form_id }}"
+		{% if option.selected_value == value %}
+			checked
+		{% endif %}
+		{% if option_disabled %}
+			class="disabled"
+		{% endif %}
+	>
+	<label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+		{{ value }}
+	</label>
+{%- endfor -%}
